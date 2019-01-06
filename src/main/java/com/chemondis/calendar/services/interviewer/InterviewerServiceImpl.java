@@ -1,4 +1,4 @@
-package com.chemondis.calendar.services.interviewers;
+package com.chemondis.calendar.services.interviewer;
 
 import java.util.List;
 import java.util.Set;

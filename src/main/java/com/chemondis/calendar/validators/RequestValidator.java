@@ -6,7 +6,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.chemondis.calendar.controllers.requestmodels.SaveAvailabilityRequest;
 import com.chemondis.calendar.models.InterviewAvailability;
-import com.chemondis.calendar.services.interviewers.InvalidAvailabilityException;
+import com.chemondis.calendar.services.interviewer.InvalidAvailabilityException;
 
 public class RequestValidator {
 

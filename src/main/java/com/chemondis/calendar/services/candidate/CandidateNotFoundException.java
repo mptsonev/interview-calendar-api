@@ -1,4 +1,4 @@
-package com.chemondis.calendar.services.candidates;
+package com.chemondis.calendar.services.candidate;
 
 import javax.ws.rs.NotFoundException;
 

@@ -1,4 +1,4 @@
-package com.chemondis.calendar.json;
+package com.chemondis.calendar.serialization;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

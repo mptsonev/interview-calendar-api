@@ -1,4 +1,4 @@
-package com.chemondis.calendar.services.candidates;
+package com.chemondis.calendar.services.candidate;
 
 import java.util.List;
 import java.util.Set;

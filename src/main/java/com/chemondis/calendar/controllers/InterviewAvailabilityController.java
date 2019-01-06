@@ -16,13 +16,13 @@ import javax.ws.rs.core.UriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.chemondis.calendar.availability.calculator.AvailabilityCalculator;
+import com.chemondis.calendar.calculator.AvailabilityCalculator;
 import com.chemondis.calendar.controllers.requestmodels.GetInterviewAvailabilityRequest;
 import com.chemondis.calendar.models.Candidate;
 import com.chemondis.calendar.models.InterviewAvailability;
 import com.chemondis.calendar.models.Interviewer;
-import com.chemondis.calendar.services.candidates.CandidateService;
-import com.chemondis.calendar.services.interviewers.InterviewerService;
+import com.chemondis.calendar.services.candidate.CandidateService;
+import com.chemondis.calendar.services.interviewer.InterviewerService;
 
 @Component
 @Path("/availability")

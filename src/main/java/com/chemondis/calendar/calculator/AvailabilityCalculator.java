@@ -1,4 +1,4 @@
-package com.chemondis.calendar.availability.calculator;
+package com.chemondis.calendar.calculator;
 
 import java.util.ArrayList;
 import java.util.Collections;

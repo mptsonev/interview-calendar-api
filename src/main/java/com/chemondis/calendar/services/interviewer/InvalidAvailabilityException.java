@@ -1,4 +1,4 @@
-package com.chemondis.calendar.services.interviewers;
+package com.chemondis.calendar.services.interviewer;
 
 public class InvalidAvailabilityException extends Exception {
 

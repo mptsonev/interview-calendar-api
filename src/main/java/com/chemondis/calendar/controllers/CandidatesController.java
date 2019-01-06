@@ -20,8 +20,8 @@ import org.springframework.stereotype.Component;
 import com.chemondis.calendar.controllers.requestmodels.SaveAvailabilityRequest;
 import com.chemondis.calendar.models.Candidate;
 import com.chemondis.calendar.models.InterviewAvailability;
-import com.chemondis.calendar.services.candidates.CandidateService;
-import com.chemondis.calendar.services.interviewers.InvalidAvailabilityException;
+import com.chemondis.calendar.services.candidate.CandidateService;
+import com.chemondis.calendar.services.interviewer.InvalidAvailabilityException;
 import com.chemondis.calendar.validators.RequestValidator;
 
 @Component

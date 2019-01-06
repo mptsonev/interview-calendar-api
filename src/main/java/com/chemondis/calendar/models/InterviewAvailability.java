@@ -3,8 +3,8 @@ package com.chemondis.calendar.models;
 import java.util.Date;
 import java.util.Set;
 
-import com.chemondis.calendar.json.DateDeserializer;
-import com.chemondis.calendar.json.DateSerializer;
+import com.chemondis.calendar.serialization.DateDeserializer;
+import com.chemondis.calendar.serialization.DateSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
