@@ -50,7 +50,7 @@ public class CandidatesController {
             throw new BadRequestException(e.getMessage());
         }
         Candidate candidate = candidateService.createCandidate(candidateRequest.getName(), candidateRequest.getAvailability());
-        return Response.status(201).header("Location", uri.getBaseUri() + "interviewers/" + candidate.getId()).build();
+        return Response.status(201).header("Location", uri.getBaseUri() + "candidates/" + candidate.getId()).build();
     }
 
     @POST
