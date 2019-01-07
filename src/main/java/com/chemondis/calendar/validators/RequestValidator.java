@@ -30,12 +30,12 @@ public class RequestValidator {
 
         int from = availabilityItem.getFrom();
         if (from < 0 || from > 24) {
-            throw new InvalidAvailabilityException("Invalid availability time set. Check the 'from' field for: " + availabilityItem);
+            throw new InvalidAvailabilityException("Invalid availability time set. Check the 'from' field");
         }
 
         int to = availabilityItem.getTo();
         if (to < 0 || to > 24) {
-            throw new InvalidAvailabilityException("Invalid availability time set. Check the 'to' field for: " + availabilityItem);
+            throw new InvalidAvailabilityException("Invalid availability time set. Check the 'to' field" );
         }
 
     }

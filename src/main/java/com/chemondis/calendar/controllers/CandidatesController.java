@@ -2,7 +2,6 @@ package com.chemondis.calendar.controllers;
 
 import java.util.Set;
 
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,7 +20,6 @@ import com.chemondis.calendar.controllers.requestmodels.SaveAvailabilityRequest;
 import com.chemondis.calendar.models.Candidate;
 import com.chemondis.calendar.models.InterviewAvailability;
 import com.chemondis.calendar.services.candidate.CandidateService;
-import com.chemondis.calendar.services.interviewer.InvalidAvailabilityException;
 import com.chemondis.calendar.validators.RequestValidator;
 
 @Component
@@ -44,11 +42,7 @@ public class CandidatesController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createNewCandidate(SaveAvailabilityRequest candidateRequest) {
-        try {
-            RequestValidator.validate(candidateRequest);
-        } catch (InvalidAvailabilityException e) {
-            throw new BadRequestException(e.getMessage());
-        }
+        RequestValidator.validate(candidateRequest);
         Candidate candidate = candidateService.createCandidate(candidateRequest.getName(), candidateRequest.getAvailability());
         return Response.status(201).header("Location", uri.getBaseUri() + "candidates/" + candidate.getId()).build();
     }
@@ -58,11 +52,7 @@ public class CandidatesController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Response updateCandidate(@PathParam("id") long id, SaveAvailabilityRequest updateCandidateRequest) {
-        try {
-            RequestValidator.validate(updateCandidateRequest);
-        } catch (InvalidAvailabilityException e) {
-            throw new BadRequestException(e.getMessage());
-        }
+        RequestValidator.validate(updateCandidateRequest);
         String name = updateCandidateRequest.getName();
         Set<InterviewAvailability> availability = updateCandidateRequest.getAvailability();
         Candidate candidate = candidateService.updateCandidate(id, name, availability);

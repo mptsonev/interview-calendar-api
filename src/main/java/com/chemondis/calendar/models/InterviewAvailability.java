@@ -71,5 +71,5 @@ public class InterviewAvailability {
             return false;
         return true;
     }
-
+    
 }

@@ -1,6 +1,8 @@
 package com.chemondis.calendar.services.interviewer;
 
-public class InvalidAvailabilityException extends Exception {
+import javax.ws.rs.BadRequestException;
+
+public class InvalidAvailabilityException extends BadRequestException {
 
     private static final long serialVersionUID = 1L;
 
