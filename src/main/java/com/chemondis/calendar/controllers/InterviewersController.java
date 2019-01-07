@@ -28,6 +28,8 @@ public class InterviewersController {
 
     @Autowired
     private InterviewerService interviewerService;
+    @Autowired
+    private RequestValidator requestValidator;
 
     @Context
     private UriInfo uri;
@@ -42,7 +44,7 @@ public class InterviewersController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createNewInterviewer(SaveAvailabilityRequest interviewerRequest) {
-        RequestValidator.validate(interviewerRequest);
+        requestValidator.validate(interviewerRequest);
         Interviewer interviewer = interviewerService.createInterviewer(interviewerRequest.getName(), interviewerRequest.getAvailability());
         return Response.status(201).header("Location", uri.getBaseUri() + "interviewers/" + interviewer.getId()).build();
     }
@@ -52,7 +54,7 @@ public class InterviewersController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Response updateInterviewer(@PathParam("id") long id, SaveAvailabilityRequest updateInterviewerRequest) {
-        RequestValidator.validate(updateInterviewerRequest);
+        requestValidator.validate(updateInterviewerRequest);
         String name = updateInterviewerRequest.getName();
         Set<InterviewAvailability> availability = updateInterviewerRequest.getAvailability();
         Interviewer interviewer = interviewerService.updateInterviewer(id, name, availability);

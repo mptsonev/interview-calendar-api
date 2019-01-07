@@ -28,6 +28,8 @@ public class CandidatesController {
 
     @Autowired
     private CandidateService candidateService;
+    @Autowired
+    private RequestValidator requestValidator;
 
     @Context
     private UriInfo uri;
@@ -42,7 +44,7 @@ public class CandidatesController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createNewCandidate(SaveAvailabilityRequest candidateRequest) {
-        RequestValidator.validate(candidateRequest);
+        requestValidator.validate(candidateRequest);
         Candidate candidate = candidateService.createCandidate(candidateRequest.getName(), candidateRequest.getAvailability());
         return Response.status(201).header("Location", uri.getBaseUri() + "candidates/" + candidate.getId()).build();
     }
@@ -52,7 +54,7 @@ public class CandidatesController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Response updateCandidate(@PathParam("id") long id, SaveAvailabilityRequest updateCandidateRequest) {
-        RequestValidator.validate(updateCandidateRequest);
+        requestValidator.validate(updateCandidateRequest);
         String name = updateCandidateRequest.getName();
         Set<InterviewAvailability> availability = updateCandidateRequest.getAvailability();
         Candidate candidate = candidateService.updateCandidate(id, name, availability);
