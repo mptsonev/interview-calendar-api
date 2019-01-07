@@ -4,8 +4,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
-import org.springframework.stereotype.Component;
-
 public abstract class InMemoryStorage<T extends Storable> implements Storage<T> {
 
     protected TreeMap<Long, T> objectList = new TreeMap<>();

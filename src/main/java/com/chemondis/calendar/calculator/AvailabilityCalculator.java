@@ -1,6 +1,5 @@
 package com.chemondis.calendar.calculator;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -8,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chemondis.calendar.models.Candidate;
@@ -17,13 +17,15 @@ import com.chemondis.calendar.models.Interviewer;
 @Component
 public class AvailabilityCalculator {
 
-    public Set<InterviewAvailability> calculateMatchingAvailability(Candidate candidate, List<Interviewer> interviewers) {
-        Set<InterviewAvailability> availability = new HashSet<>();
-        for (Interviewer interviewer : interviewers) {
-            availability.addAll(calculateMatchingAvailability(candidate, interviewer));
-        }
+    @Autowired
+    private MatchingHoursCalculator matchingHoursCalculator;
+    @Autowired
+    private MatchingDatesCalculator matchingDatesCalculator;
 
-        return availability;
+    private static final int INTERVIEW_LENGTH = 1;
+
+    public Set<InterviewAvailability> calculateMatchingAvailability(Candidate candidate, List<Interviewer> interviewers) {
+        return interviewers.stream().map(i -> calculateMatchingAvailability(candidate, i)).flatMap(l -> l.stream()).collect(Collectors.toSet());
     }
 
     private Set<InterviewAvailability> calculateMatchingAvailability(Candidate candidate, Interviewer interviewer) {
@@ -34,18 +36,7 @@ public class AvailabilityCalculator {
 
         for (InterviewAvailability candidateAvailabilityItem : candidateAvailability) {
             for (InterviewAvailability interviewAvailabilityItem : interviewerAvailability) {
-                Set<Integer> matchingHours = calculateMatchingHours(candidateAvailabilityItem, interviewAvailabilityItem);
-                if (matchingHours.isEmpty()) {
-                    continue;
-                }
-                Set<Date> matchingDates = calculateMatchingDates(candidateAvailabilityItem, interviewAvailabilityItem);
-                if (matchingDates.isEmpty()) {
-                    continue;
-                }
-
-                List<InterviewAvailability> matchingAvailability = getMatchingAvailability(matchingHours, matchingDates);
-                availability.addAll(matchingAvailability);
-
+                availability.addAll(getMatchingAvailability(candidateAvailabilityItem, interviewAvailabilityItem));
             }
         }
 
@@ -53,41 +44,20 @@ public class AvailabilityCalculator {
 
     }
 
-    private List<InterviewAvailability> getMatchingAvailability(Set<Integer> matchingHours, Set<Date> matchingDates) {
-        List<InterviewAvailability> availability = new ArrayList<>();
+    private Set<InterviewAvailability> getMatchingAvailability(InterviewAvailability candidateAvailability, InterviewAvailability interviewerAvailability) {
+
+        Set<Integer> matchingHours = matchingHoursCalculator.calculateMatchingHours(candidateAvailability, interviewerAvailability);
+        Set<Date> matchingDates = matchingDatesCalculator.calculateMatchingDates(candidateAvailability, interviewerAvailability);
+
+        Set<InterviewAvailability> availability = new HashSet<>();
+
+        // Return one entry for each available hour
         for (Integer matchingHour : matchingHours) {
             for (Date matchingDate : matchingDates) {
-                availability.add(new InterviewAvailability(matchingHour, matchingHour + 1, Collections.singleton(matchingDate)));
+                availability.add(new InterviewAvailability(matchingHour, matchingHour + INTERVIEW_LENGTH, Collections.singleton(matchingDate)));
             }
         }
         return availability;
-    }
-
-    private Set<Integer> calculateMatchingHours(InterviewAvailability candidateAvailabilityItem, InterviewAvailability interviewAvailabilityItem) {
-
-        int candidateFrom = candidateAvailabilityItem.getFrom();
-        int candidateTo = candidateAvailabilityItem.getTo();
-        int interviewerFrom = interviewAvailabilityItem.getFrom();
-        int interviewerTo = interviewAvailabilityItem.getTo();
-
-        Set<Integer> matchingHoursList = new HashSet<>();
-
-        int firstPossibleHour = Math.max(candidateFrom, interviewerFrom);
-        int lastPossibleHour = Math.min(candidateTo, interviewerTo);
-        while (firstPossibleHour < lastPossibleHour) {
-            matchingHoursList.add(firstPossibleHour++);
-        }
-
-        return matchingHoursList;
-    }
-
-    private Set<Date> calculateMatchingDates(InterviewAvailability candidateAvailabilityItem, InterviewAvailability interviewAvailabilityItem) {
-
-        Set<Date> candidateAvailableDays = candidateAvailabilityItem.getDays();
-        Set<Date> interviewerAvailableDays = interviewAvailabilityItem.getDays();
-
-        return candidateAvailableDays.stream().filter(d -> interviewerAvailableDays.contains(d)).collect(Collectors.toSet());
-
     }
 
 }
