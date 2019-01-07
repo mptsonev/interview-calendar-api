@@ -5,7 +5,9 @@ This repository contains a REST API for an interview calendar implemented with J
 
 ## How to run 
 
-To run the application locally, clone the repository and type:
+Make sure you have installed Maven command line tool and Java with version at least 1.8.
+
+To run the application locally, clone the repository, navigate to the folder and type:
 
 ```
 mvn spring-boot:run
@@ -14,6 +16,8 @@ mvn spring-boot:run
 The server will be available at http://localhost:8080
 
 ## Endpoints
+ 
+Swagger documentation of the API can be found here: https://app.swaggerhub.com/apis-docs/monochronique/Interview_Calendar/1.0.0#/
 
 **Important:** `Content-Type: application/json` header must be present to use API.
 
